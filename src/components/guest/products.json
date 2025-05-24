@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "Rendang",
+    "price": "$1.00",
+    "image": "/img/rendang.jpeg",
+    "rating": 5,
+    "sale": true
+  },
+  {
+    "id": 2,
+    "name": "Gulai Belacan",
+    "price": "$9.00",
+    "image": "/img/gulai.jpeg",
+    "rating": 5,
+    "sale": false
+  },
+  {
+    "id": 3,
+    "name": "Tempoyak Ikan Patin",
+    "price": "$3.00",
+    "image": "/img/tempoyak.jpg",
+    "rating": 5,
+    "sale": false
+  },
+  {
+    "id": 4,
+    "name": "Seruit",
+    "price": "$1.00",
+    "image": "/img/seruit.jpg",
+    "rating": 5,
+    "sale": false
+  },
+  {
+    "id": 5,
+    "name": "Mie Bangka",
+    "price": "$2.00",
+    "image": "/img/mie.jpg",
+    "rating": 5,
+    "sale": false
+  },
+  {
+    "id": 6,
+    "name": "Nasi Gudeg",
+    "price": "$2.00",
+    "image": "/img/nasi.jpg",
+    "rating": 5,
+    "sale": true
+  }
+]

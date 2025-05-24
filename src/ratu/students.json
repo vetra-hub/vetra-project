@@ -1,0 +1,143 @@
+[  
+  {  
+    "id": 1,  
+    "name": "John Doe",  
+    "age": 15,  
+    "class": "10A",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "123 Main St",  
+      "parent": {  
+        "name": "Jane Doe",  
+        "contact": "0123456789"  
+      }  
+    }  
+  },  
+  {  
+    "id": 2,  
+    "name": "Alice Smith",  
+    "age": 14,  
+    "class": "9B",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "456 Side St",  
+      "parent": {  
+        "name": "Bob Smith",  
+        "contact": "0987654321"  
+      }  
+    }  
+  },  
+  {  
+    "id": 3,  
+    "name": "Tom Brown",  
+    "age": 16,  
+    "class": "11C",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "789 Back Rd",  
+      "parent": {  
+        "name": "Sara Brown",  
+        "contact": "5551234567"  
+      }  
+    }  
+  },  
+  {  
+    "id": 4,  
+    "name": "Lucy White",  
+    "age": 15,  
+    "class": "10A",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "101 Front St",  
+      "parent": {  
+        "name": "Michael White",  
+        "contact": "5557654321"  
+      }  
+    }  
+  },  
+  {  
+    "id": 5,  
+    "name": "David Green",  
+    "age": 17,  
+    "class": "12D",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "111 Oak Ave",  
+      "parent": {  
+        "name": "Emily Green",  
+        "contact": "5559876543"  
+      }  
+    }  
+  },  
+  {  
+    "id": 6,  
+    "name": "Emma Blue",  
+    "age": 13,  
+    "class": "8A",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "121 Pine St",  
+      "parent": {  
+        "name": "Chris Blue",  
+        "contact": "5556547890"  
+      }  
+    }  
+  },  
+  {  
+    "id": 7,  
+    "name": "Harry Red",  
+    "age": 14,  
+    "class": "9C",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "131 Maple St",  
+      "parent": {  
+        "name": "Kate Red",  
+        "contact": "5554239876"  
+      }  
+    }  
+  },  
+  {  
+    "id": 8,  
+    "name": "Liam Grey",  
+    "age": 16,  
+    "class": "11B",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "141 Birch St",  
+      "parent": {  
+        "name": "Nina Grey",  
+        "contact": "5551597534"  
+      }  
+    }  
+  },  
+  {  
+    "id": 9,  
+    "name": "Olivia Black",  
+    "age": 15,  
+    "class": "10C",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "151 Walnut St",  
+      "parent": {  
+        "name": "Steve Black",  
+        "contact": "5557531598"  
+      }  
+    }  
+  },  
+  {  
+    "id": 10,  
+    "name": "Sophia Yellow",  
+    "age": 17,  
+    "class": "12B",  
+    "photo": "https://via.placeholder.com/150",  
+    "details": {  
+      "address": "161 Chestnut St",  
+      "parent": {  
+        "name": "Laura Yellow",  
+        "contact": "5553219870"  
+      }  
+    }  
+  }  
+]  
+   

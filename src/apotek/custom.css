@@ -1,0 +1,170 @@
+Styling untuk keseluruhan halaman
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Container utama */
+.card-qna{
+    max-width: 650px;
+    margin: 20px auto;
+    background: rgb(157, 246, 130);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-qna1{
+    max-width: 650px;
+    margin: 20px auto;
+    background: rgb(180, 246, 160);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card2 {
+    max-width: 650px;
+    margin: 20px auto;
+    background: #0c0074;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header utama */
+h1 {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    text-align: center;
+}
+
+h2 {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #0c0074;
+    text-align: center;
+}
+
+/* Paragraf */
+p {
+    text-align: justify; /*rata kiri kanan*/
+    font-size: 16px;
+    line-height: 1.5; /*jarak baris*/
+    margin-bottom: 15px;
+    text-indent: 50px; /*text awal masuk lebih*/
+}
+
+/* Garis pemisah */
+hr {
+    border: none;
+    height: 2px;
+    background: #ddd;
+    margin: 10px 0;
+}
+
+/* Greeting */
+small {
+    display: block;
+    font-style: italic;
+    text-align: center;
+    color: #888;
+    margin-top: 5px;
+}
+
+.nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+}
+
+.nav-buttons .prev,
+.nav-buttons .next {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.nav-buttons .prev {
+    background: #3498db;
+    color: white;
+}
+
+.nav-buttons .prev:hover {
+    background: #2980b9;
+}
+
+.nav-buttons .next {
+    background: #2ecc71;
+    color: white;
+}
+
+.nav-buttons .next:hover {
+    background: #27ae60;
+}
+
+.qna-item {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
+
+.product-item {
+    list-style: none;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+
+    max-width: 25%;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.card {
+    max-width: 350px;
+    margin: 20px auto;
+    background: rgb(243, 241, 224);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardArtikel {
+    max-width: 650px;
+    margin: 20px auto;
+    background: rgb(227, 223, 189);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardA {
+    max-width: 650px;
+    margin: 20px auto;
+    background: rgb(215, 245, 210);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cardProduct {
+    max-width: 650px;
+    margin: 20px auto;
+    background: rgb(243, 207, 165);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.teks{
+    text-align: justify;
+}

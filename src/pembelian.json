@@ -1,0 +1,65 @@
+[
+  {
+    "no": 1,
+    "tanggal": "30/05/2024 15.02",
+    "noSP": "POR-240530-001",
+    "supplier": "-",
+    "produk": "33 STRIP x CATAFLAM 25MG/50 TAB",
+    "status": "OPEN",
+    "total": 1056000
+  },
+  {
+    "no": 2,
+    "tanggal": "03/06/2024 11.35",
+    "noSP": "POR-240603-001",
+    "supplier": "PT Fertomuila Pratama",
+    "produk": "2 BOX x METHYL PREDNISOLON 8 MG 100S (MHKM)",
+    "status": "CLOSED",
+    "total": 157500
+  },
+  {
+    "no": 3,
+    "tanggal": "04/06/2024 11.13",
+    "noSP": "POR-240604-001",
+    "supplier": "kita bersatu jadi rejeki",
+    "produk": "1 Pcs x 19 Cair",
+    "status": "OPEN",
+    "total": 13320
+  },
+  {
+    "no": 4,
+    "tanggal": "04/06/2024 12.43",
+    "noSP": "POR-240604-002",
+    "supplier": "Enseval",
+    "produk": "1 Pcs x ACNOL LOTION 10ML",
+    "status": "OPEN",
+    "total": 15900
+  },
+  {
+    "no": 5,
+    "tanggal": "04/06/2024 15.55",
+    "noSP": "POR-240604-003",
+    "supplier": "PT. RESKY LAIFASTO",
+    "produk": "10 Tablet x Lipitor 10mg tab",
+    "status": "OPEN",
+    "total": 237824
+  },
+  {
+    "no": 6,
+    "tanggal": "04/06/2024 22.48",
+    "noSP": "POR-240604-004",
+    "supplier": "-",
+    "produk": "1 Pcs x ACNOL LOTION 10ML",
+    "status": "OPEN",
+    "total": 15900
+  },
+  {
+    "no": 7,
+    "tanggal": "05/06/2024 19.02",
+    "noSP": "POR-240605-001",
+    "supplier": "PT. ANUGERAH PHARMINDO LESTARI",
+    "produk": "1 Tube x Acyclovir salep 5%",
+    "status": "OPEN",
+    "total": 94648
+  }
+]

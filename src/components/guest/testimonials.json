@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Dafit Pandiangan",
+    "role": "Customer",
+    "image": "https://avatar.iran.liara.run/public/4",
+    "text": "Rasanya benar-benar menggugah selera! Makanan datang hangat dan fresh, seperti buatan rumah sendiri."
+  },
+  {
+    "name": "Love",
+    "role": "Customer",
+    "image": "https://avatar.iran.liara.run/public/15",
+    "text": "Pelayanan cepat dan makanannya lezat. Cocok banget untuk yang sibuk tapi tetap ingin makan enak."
+  },
+  {
+    "name": "Vetra Hutagalung",
+    "role": "Customer",
+    "image": "https://avatar.iran.liara.run/public/97",
+    "text": "Porsinya pas, bumbunya mantap, dan harganya juga terjangkau. Sudah langganan dan selalu puas!"
+  },
+  {
+    "name": "Chanyeol Park",
+    "role": "Nutritionist",
+    "image": "https://avatar.iran.liara.run/public/44",
+    "text": "Saya suka karena bahan-bahannya terasa alami dan berkualitas. Ini salah satu makanan terenak yang pernah saya coba!"
+  },
+  {
+    "name": "Hyunwook",
+    "role": "Chef",
+    "image": "https://avatar.iran.liara.run/public/11",
+    "text": "Makanan dikemas rapi dan higienis. Cocok banget buat dikirim ke orang tersayang atau dinikmati sendiri."
+  },
+  {
+    "name": "Han Jiwoo",
+    "role": "Chef",
+    "image": "https://avatar.iran.liara.run/public/42",
+    "text": "Makanan dikemas rapi dan higienis. Cocok banget buat dikirim ke orang tersayang atau dinikmati sendiri."
+  }
+]

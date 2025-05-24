@@ -1,0 +1,44 @@
+[
+  {
+    "noStruk": "IN-230602-001",
+    "produk": "1 Botol x ABC Handsanitizer 100ml",
+    "total": 36000,
+    "dibatalkan": true,
+    "tanggal": "2023-06-02T10:18:00"
+  },
+  {
+    "noStruk": "IN-230602-002",
+    "produk": "1 BOX x ABC Sari kacang hijau 250ml",
+    "total": 6500,
+    "dibatalkan": true,
+    "tanggal": "2023-06-02T12:30:00"
+  },
+  {
+    "noStruk": "IN-230602-003",
+    "produk": "10 Strip x Amlodipine 5mg",
+    "total": 35000,
+    "dibatalkan": false,
+    "tanggal": "2023-06-03T09:10:00"
+  },
+  {
+    "noStruk": "IN-230602-004",
+    "produk": "2 Botol x Amoxicillin 125mg syr Nova",
+    "total": 16000,
+    "dibatalkan": false,
+    "tanggal": "2023-06-04T14:45:00"
+  },
+  {
+    "noStruk": "IN-230602-005",
+    "produk": "5 Pack x Paracetamol 500mg",
+    "total": 25000,
+    "dibatalkan": false,
+    "tanggal": "2023-06-05T15:25:00"
+  },
+  {
+    "noStruk": "IN-230602-006",
+    "produk": "1 Box x Vitamin C 100mg",
+    "total": 12000,
+    "dibatalkan": true,
+    "tanggal": "2023-06-06T16:30:00"
+  }
+]
