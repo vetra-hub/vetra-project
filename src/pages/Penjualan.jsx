@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -13,14 +13,28 @@ import { format, parseISO } from "date-fns";
 import Card from "../components/Card";
 import PageHeader2 from "../components/PageHeader2";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; 
-import penjualanData from "../penjualan.json";
+import "react-calendar/dist/Calendar.css";
+import axios from "axios";
+import { Link } from 'react-router-dom';
 
-// Register komponen Chart.js
+// Register Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function Penjualan() {
+  const [penjualanData, setPenjualanData] = useState([]);
   const [showCancelled, setShowCancelled] = useState(true);
+
+  // Ambil data dari API
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/penjualan")
+      .then((response) => {
+        setPenjualanData(response.data);
+      })
+      .catch((error) => {
+        console.error("Gagal mengambil data penjualan:", error);
+      });
+  }, []);
 
   const startDate = parseISO("2023-06-01");
   const endDate = parseISO("2023-06-06");
@@ -34,7 +48,7 @@ export default function Penjualan() {
     );
   });
 
-  const totalPenjualan = filteredData.reduce((acc, item) => acc + item.total, 0);
+  const totalPenjualan = filteredData.reduce((acc, item) => acc + Number(item.total || 0), 0);
   const totalTransaksi = filteredData.length;
 
   const chartData = {
@@ -42,9 +56,9 @@ export default function Penjualan() {
     datasets: [
       {
         label: "Total Penjualan",
-        data: filteredData.map((item) => item.total),
-        backgroundColor: "rgba(255, 99, 132, 0.6)", // Warna merah muda
-        borderColor: "rgba(255, 99, 132, 1)", // Warna merah solid
+        data: filteredData.map((item) => Number(item.total) || 0),
+        backgroundColor: "rgba(255, 99, 132, 0.6)",
+        borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 2,
         hoverBackgroundColor: "rgba(255, 99, 132, 0.8)",
         hoverBorderColor: "rgba(255, 99, 132, 1)"
@@ -52,7 +66,52 @@ export default function Penjualan() {
     ]
   };
 
-  // Mendapatkan daftar tanggal dari data penjualan
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: false
+      },
+      legend: {
+        display: true,
+        position: 'top',
+        labels: {
+          fontColor: '#333',
+          fontSize: 14
+        }
+      },
+      tooltip: {
+        backgroundColor: 'rgba(255, 99, 132, 0.8)',
+        titleFont: {
+          size: 16
+        },
+        bodyFont: {
+          size: 14
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: {
+          fontSize: 12,
+          fontColor: '#333'
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function (value) {
+            const numeric = Number(value);
+            return `Rp ${isNaN(numeric) ? value : numeric.toLocaleString("id-ID")}`;
+          },
+          fontSize: 12,
+          fontColor: '#333'
+        }
+      }
+    }
+  };
+
   const penjualanDates = [...new Set(filteredData.map(item => format(parseISO(item.tanggal), 'yyyy-MM-dd')))];
 
   const handleDelete = (noStruk) => {
@@ -67,66 +126,18 @@ export default function Penjualan() {
     <div className="flex flex-col flex-1 w-full h-full overflow-auto bg-gray-50">
       <PageHeader2 title="Penjualan" />
 
-      {/* Menampilkan Grafik Penjualan dan Kalender secara berdampingan */}
       <div className="flex justify-between gap-6 mb-6 max-w-7xl mx-auto">
-        {/* Kartu Grafik Penjualan */}
+        {/* Grafik */}
         <div className="flex-1">
           <Card>
             <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">Grafik Penjualan</h2>
-            <div className="relative">
-              <Bar
-                data={chartData}
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  plugins: {
-                    title: {
-                      display: false
-                    },
-                    legend: {
-                      display: true,
-                      position: 'top',
-                      labels: {
-                        fontColor: '#333',
-                        fontSize: 14
-                      }
-                    },
-                    tooltip: {
-                      backgroundColor: 'rgba(255, 99, 132, 0.8)',
-                      titleFont: {
-                        size: 16
-                      },
-                      bodyFont: {
-                        size: 14
-                      }
-                    }
-                  },
-                  scales: {
-                    x: {
-                      ticks: {
-                        fontSize: 12,
-                        fontColor: '#333'
-                      }
-                    },
-                    y: {
-                      beginAtZero: true,
-                      ticks: {
-                        callback: function(value) {
-                          return `Rp ${value.toLocaleString()}`;
-                        },
-                        fontSize: 12,
-                        fontColor: '#333'
-                      }
-                    }
-                  }
-                }}
-                height={300} // Ukuran chart lebih proporsional
-              />
+            <div className="relative h-[300px]">
+              <Bar data={chartData} options={chartOptions} />
             </div>
           </Card>
         </div>
 
-        {/* Kartu Kalender */}
+        {/* Kalender */}
         <div className="flex-1">
           <Card>
             <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">Tanggal Penjualan</h2>
@@ -134,7 +145,7 @@ export default function Penjualan() {
               tileClassName={({ date }) => {
                 const dateStr = format(date, 'yyyy-MM-dd');
                 if (penjualanDates.includes(dateStr)) {
-                  return 'bg-blue-500 text-white'; // Tandai tanggal penjualan dengan latar belakang biru
+                  return 'bg-blue-500 text-white';
                 }
                 return '';
               }}
@@ -144,7 +155,7 @@ export default function Penjualan() {
         </div>
       </div>
 
-      {/* Tombol toggle data dibatalkan */}
+      {/* Toggle dibatalkan */}
       <div className="flex justify-end mb-6 px-6">
         <button
           onClick={() => setShowCancelled(!showCancelled)}
@@ -157,7 +168,7 @@ export default function Penjualan() {
       {/* Tabel Penjualan */}
       <div className="overflow-x-auto bg-white rounded-xl shadow-lg mb-6 mx-6">
         <table className="min-w-full table-auto text-sm text-gray-700">
-        <thead className="bg-indigo-600 text-white">
+          <thead className="bg-indigo-600 text-white">
             <tr>
               <th className="px-6 py-3 text-left">No. Struk</th>
               <th className="px-6 py-3 text-left">Produk</th>
@@ -169,9 +180,16 @@ export default function Penjualan() {
           <tbody>
             {filteredData.map((item, index) => (
               <tr key={index} className="border-t hover:bg-gray-50">
-                <td className="px-6 py-4">{item.noStruk}</td>
+                <td className="px-6 py-4">
+                  <Link
+                    to={`/penjualan/${item.noStruk}`}
+                    className="text-emerald-400 hover:text-emerald-500"
+                  >
+                    {item.noStruk}
+                  </Link>
+                </td>
                 <td className="px-6 py-4">{item.produk}</td>
-                <td className="px-6 py-4">Rp {item.total.toLocaleString("id-ID")}</td>
+                <td className="px-6 py-4">Rp {Number(item.total || 0).toLocaleString("id-ID")}</td>
                 <td className="px-6 py-4">
                   {item.dibatalkan ? (
                     <span className="text-red-600 font-semibold">Dibatalkan</span>

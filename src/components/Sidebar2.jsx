@@ -1,4 +1,5 @@
 import React from "react";
+
 import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard, ShoppingCart, ClipboardList, Boxes, PackagePlus,
@@ -6,12 +7,16 @@ import {
   Settings, Store, CreditCard, Sliders, Plug, Globe, Network
 } from "lucide-react";
 
+
+
 const menuItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/" },
   { name: "Penjualan", icon: ShoppingCart, path: "/penjualan" },
   // { name: "Pelayanan", icon: ClipboardList, path: "/pelayanan" },
   { name: "Persediaan", icon: Boxes, path: "/persediaan" },
   { name: "Pembelian", icon: PackagePlus, path: "/pembelian" },
+  
+
   // { name: "Komunikasi", icon: MessageCircle, path: "/komunikasi" },
   // { name: "Program Promo", icon: Gift, path: "/promo" },
   // { name: "Keuangan", icon: Wallet, path: "/keuangan" },
@@ -36,6 +41,7 @@ export default function Sidebar2() {
   </div>
   <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1">
     {menuItems.map(({ name, icon: Icon, path }) => (
+      
       <NavLink
         key={name}
         to={path}
@@ -48,6 +54,10 @@ export default function Sidebar2() {
         <Icon size={20} />
         <span>{name}</span>
       </NavLink>
+
+
+
+      
     ))}
   </nav>
 </aside>

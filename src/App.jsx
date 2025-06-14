@@ -6,6 +6,7 @@ import AuthLayout2 from "./layouts/AuthLayout2";
 import Login1 from "./pages/auth/Login1";
 import Register1 from "./pages/auth/Register1";
 import Forgot1 from "./pages/auth/Forgot1";
+import Quotes from "./pages/Quotes";
 
 // import Dashboard2 from "./pages/Dashboard2";
 // import Penjualan from "./pages/Penjualan";
@@ -28,23 +29,29 @@ const AuthLayout = React.lazy(() => import("./layouts/AuthLayout"))
 const Login = React.lazy(() => import("./pages/auth/Login"))
 const Register = React.lazy(() => import("./pages/auth/Register"))
 const Forgot = React.lazy(() => import("./pages/auth/Forgot"))
+const DetailPenjualan = React.lazy(() => import("./pages/DetailPenjualan"))
+const DetailPersediaan = React.lazy(() => import("./pages/DetailPersediaan"))
 
 function App() {
   return (
    <Suspense fallback={<Loading/>}>
-        <Routes>
-          <Route element={<MainLayout2/>}>
+    <Quotes/>
+      <Routes>
+        <Route element={<MainLayout2 />}>
           <Route path="/" element={<Dashboard2 />} />
           <Route path="/penjualan" element={<Penjualan />} />
+          <Route path="/penjualan/:noStruk" element={<DetailPenjualan />} />
           <Route path="/pembelian" element={<Pembelian />} />
           <Route path="/persediaan" element={<Persediaan />} />
+          <Route path="/persediaan/:id" element={<DetailPersediaan />} />
+          
 
           <Route path="/error/400" element={<ErrorPage kode={400} />} />
           <Route path="/error/401" element={<ErrorPage kode={401} />} />
           <Route path="/error/403" element={<ErrorPage kode={403} />} />
-          </Route>
+        </Route>
 
-          <Route element={<AuthLayout/>}>
+        <Route element={<AuthLayout/>}>
           <Route path="/login" element={<Login/>} />
           <Route path="/register" element={<Register/>} />
           <Route path="/forgot" element={<Forgot/>} />
@@ -55,8 +62,8 @@ function App() {
             <Route path="/register" element={<Register1/>} />
             <Route path="/forgot" element={<Forgot1/>} />
         </Route>
-        </Routes>
-        </Suspense>
+      </Routes>
+    </Suspense>
 
   )
 }

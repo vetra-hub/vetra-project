@@ -1,0 +1,230 @@
+{
+"persediaan": [
+{
+"id": 1,
+"nama": "Paracetamol",
+"rak": "A1",
+"stok": 200,
+"satuan": "strip",
+"hargaPokokMin": 1500,
+"hargaPokokMax": 2000,
+"hargaJualMin": 2500,
+"hargaJualMax": 3000,
+"minMarkup": 25,
+"maxMarkup": 50,
+"status": "Tersedia"
+},
+{
+"id": 2,
+"nama": "Amoxicillin",
+"rak": "B2",
+"stok": 100,
+"satuan": "strip",
+"hargaPokokMin": 3000,
+"hargaPokokMax": 4000,
+"hargaJualMin": 4500,
+"hargaJualMax": 5500,
+"minMarkup": 20,
+"maxMarkup": 35,
+"status": "Tersedia"
+},
+{
+"id": 3,
+"nama": "Vitamin C 500mg",
+"rak": "C3",
+"stok": 80,
+"satuan": "strip",
+"hargaPokokMin": 2000,
+"hargaPokokMax": 2500,
+"hargaJualMin": 3000,
+"hargaJualMax": 3500,
+"minMarkup": 20,
+"maxMarkup": 40,
+"status": "Hampir Habis"
+},
+{
+"id": 4,
+"nama": "Salep Kulit",
+"rak": "D1",
+"stok": 40,
+"satuan": "tube",
+"hargaPokokMin": 6000,
+"hargaPokokMax": 8000,
+"hargaJualMin": 9000,
+"hargaJualMax": 11000,
+"minMarkup": 25,
+"maxMarkup": 35,
+"status": "Tersedia"
+},
+{
+"id": 5,
+"nama": "Antasida",
+"rak": "E4",
+"stok": 60,
+"satuan": "strip",
+"hargaPokokMin": 1000,
+"hargaPokokMax": 1500,
+"hargaJualMin": 2000,
+"hargaJualMax": 2500,
+"minMarkup": 30,
+"maxMarkup": 50,
+"status": "Tersedia"
+}
+],
+"detailPersediaan": [
+{
+"id": 1,
+"nama": "Paracetamol",
+"rak": "A1",
+"stok": 200,
+"satuan": "strip",
+"hargaPokokMin": 1500,
+"hargaPokokMax": 2000,
+"hargaJualMin": 2500,
+"hargaJualMax": 3000,
+"minMarkup": 25,
+"maxMarkup": 50,
+"status": "Tersedia",
+"image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAePRK4k6zrBbEtoTzp1xkofUb9LRqXad1rw&s"
+},
+{
+"id": 2,
+"nama": "Amoxicillin",
+"rak": "B2",
+"stok": 100,
+"satuan": "strip",
+"hargaPokokMin": 3000,
+"hargaPokokMax": 4000,
+"hargaJualMin": 4500,
+"hargaJualMax": 5500,
+"minMarkup": 20,
+"maxMarkup": 35,
+"status": "Tersedia",
+"image": "https://d1vbn70lmn1nqe.cloudfront.net/prod/wp-content/uploads/2023/05/13090017/amoxilin.jpg.webp"
+},
+{
+"id": 3,
+"nama": "Vitamin C 500mg",
+"rak": "C3",
+"stok": 80,
+"satuan": "strip",
+"hargaPokokMin": 2000,
+"hargaPokokMax": 2500,
+"hargaJualMin": 3000,
+"hargaJualMax": 3500,
+"minMarkup": 20,
+"maxMarkup": 40,
+"status": "Hampir Habis",
+"image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0Dzp-FKt82R4s4x7IBzr6qgQXB1JM8Dvt9g&s"
+},
+{
+"id": 4,
+"nama": "Salep Kulit",
+"rak": "D1",
+"stok": 40,
+"satuan": "tube",
+"hargaPokokMin": 6000,
+"hargaPokokMax": 8000,
+"hargaJualMin": 9000,
+"hargaJualMax": 11000,
+"minMarkup": 25,
+"maxMarkup": 35,
+"status": "Tersedia",
+"image": "https://medicastore.com/images/produk/IKAGEN-OINT-(SALEP)-10-GR_nfyIy_Medicastore.webp"
+},
+{
+"id": 5,
+"nama": "Antasida",
+"rak": "E4",
+"stok": 60,
+"satuan": "strip",
+"hargaPokokMin": 1000,
+"hargaPokokMax": 1500,
+"hargaJualMin": 2000,
+"hargaJualMax": 2500,
+"minMarkup": 30,
+"maxMarkup": 50,
+"status": "Tersedia",
+"image": "https://images.tokopedia.net/img/cache/700/VqbcmM/2021/10/1/f1117ee4-c5da-45e0-8803-8404cc2d5c50.jpg"
+}
+],
+"penjualan": [
+{
+"noStruk": "OBT001",
+"produk": "1 Botol x ABC Handsanitizer 100ml",
+"total": 25000,
+"tanggal": "2023-06-01",
+"dibatalkan": false
+},
+{
+"noStruk": "OBT002",
+"produk": "1 BOX x ABC Sari kacang hijau 250ml",
+"total": 45000,
+"tanggal": "2023-06-02",
+"dibatalkan": false
+},
+{
+"noStruk": "OBT003",
+"produk": "10 Strip x Amlodipine 5mg",
+"total": 30000,
+"tanggal": "2023-06-03",
+"dibatalkan": true
+},
+{
+"noStruk": "OBT004",
+"produk": "2 Botol x Amoxicillin 125mg syr Nova",
+"total": 10000,
+"tanggal": "2023-06-04",
+"dibatalkan": false
+},
+{
+"noStruk": "OBT005",
+"produk": "5 Pack x Paracetamol 500mg",
+"total": 15000,
+"tanggal": "2023-06-05",
+"dibatalkan": false
+}
+],
+"detailPenjualan": [
+{
+"noStruk": "OBT001",
+"produk": "1 Botol x ABC Handsanitizer 100ml",
+"total": 25000,
+"tanggal": "2023-06-01",
+"dibatalkan": false,
+"gambar": "https://images.renos.id/assets/portal-assets/1304/product/images/n6NvroRVPk.png"
+},
+{
+"noStruk": "OBT002",
+"produk": "1 BOX x ABC Sari kacang hijau 250ml",
+"total": 45000,
+"tanggal": "2023-06-02",
+"dibatalkan": false,
+"gambar": "https://down-id.img.susercontent.com/file/id-11134207-7r98s-lm9s5tyeslqf00"
+},
+{
+"noStruk": "OBT003",
+"produk": "10 Strip x Amlodipine 5mg",
+"total": 30000,
+"tanggal": "2023-06-03",
+"dibatalkan": true,
+"gambar": "https://res-1.cloudinary.com/dk0z4ums3/image/upload/c_scale,h_500,w_500/v1/production/pharmacy/products/1669892799_amlodipine_5_mg"
+},
+{
+"noStruk": "OBT004",
+"produk": "2 Botol x Amoxicillin 125mg syr Nova",
+"total": 10000,
+"tanggal": "2023-06-04",
+"dibatalkan": false,
+"gambar": "https://www.novapharin.co.id/data/plist_pic/15.jpg"
+},
+{
+"noStruk": "OBT005",
+"produk": "5 Pack x Paracetamol 500mg",
+"total": 15000,
+"tanggal": "2023-06-05",
+"dibatalkan": false,
+"gambar": "https://www.static-src.com/wcsstore/Indraprastha/images/catalog/full//91/MTA-22724542/paracetamol_paracetamol_500_mg_tablet_pim_isi_100_full02_dhizocvt.jpg"
+}
+]
+}
