@@ -7,7 +7,7 @@ import PageHeader2 from "../components/PageHeader2";
 import LoadingSpinner from "../components/LoadingSpinner";
 import EmptyState from "../components/EmptyState";
 import AlertBox from "../components/AlertBox";
-import { persediaanAPI } from "../services/persediaanAPI.JSX";
+import { persediaanAPI } from "../services/persediaanAPI.jsx";
 import axios from "axios";
 
 export default function Persediaan() {
