@@ -19,18 +19,31 @@ const DetailPersediaan = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`http://localhost:3001/detailPersediaan/${id}`) // sesuaikan endpoint API
-      .then((res) => {
-        setProduk(res.data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Gagal memuat detail produk");
-        setLoading(false);
-      });
-  }, [id]);
+  setLoading(true);
+  axios
+    .get(
+      `https://fyaxzdmlnubbwspnlrvp.supabase.co/rest/v1/persediaan?id=eq.${id}`,
+      {
+        headers: {
+          apikey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5YXh6ZG1sbnViYndzcG5scnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4Njg1MjQsImV4cCI6MjA2NTQ0NDUyNH0.tNcfZYkpUK40gfCaEPZ1I-P7SXd1qiUq1q6JF-s5TIU",
+          Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5YXh6ZG1sbnViYndzcG5scnZwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4Njg1MjQsImV4cCI6MjA2NTQ0NDUyNH0.tNcfZYkpUK40gfCaEPZ1I-P7SXd1qiUq1q6JF-s5TIU`,
+        },
+      }
+    )
+    .then((res) => {
+      if (res.data.length > 0) {
+        setProduk(res.data[0]);
+      } else {
+        setError("Produk tidak ditemukan");
+      }
+      setLoading(false);
+    })
+    .catch(() => {
+      setError("Gagal memuat detail produk");
+      setLoading(false);
+    });
+}, [id]);
+
 
   if (loading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">{error}</p>;

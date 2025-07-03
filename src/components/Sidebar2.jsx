@@ -17,20 +17,20 @@ const menuItems = [
   { name: "Pembelian", icon: PackagePlus, path: "/pembelian" },
   
 
-  // { name: "Komunikasi", icon: MessageCircle, path: "/komunikasi" },
-  // { name: "Program Promo", icon: Gift, path: "/promo" },
-  // { name: "Keuangan", icon: Wallet, path: "/keuangan" },
-  // { name: "Kontak", icon: PhoneCall, path: "/kontak" },
-  // { name: "Laporan", icon: BarChart3, path: "/laporan" },
+  { name: "Komunikasi", icon: MessageCircle, path: "/komunikasi" },
+  { name: "Program Promo", icon: Gift, path: "/promo" },
+  { name: "Keuangan", icon: Wallet, path: "/keuangan" },
+  { name: "Kontak", icon: PhoneCall, path: "/kontak" },
+  { name: "Laporan", icon: BarChart3, path: "/laporan" },
   // { name: "Analitis", icon: PieChart, path: "/analisis" },
   // { name: "Manajemen Pengguna", icon: Users, path: "/pengguna" },
   // { name: "Pengaturan", icon: Settings, path: "/pengaturan" },
-  // { name: "Profil Apotek", icon: Store, path: "/profil" },
-  // { name: "Metode Pembayaran", icon: CreditCard, path: "/pembayaran" },
+  { name: "Profil Apotek", icon: Store, path: "/profil" },
+  { name: "Metode Pembayaran", icon: CreditCard, path: "/pembayaran" },
   // { name: "Konfigurasi", icon: Sliders, path: "/konfigurasi" },
   // { name: "Integrasi Platform", icon: Plug, path: "/integrasi" },
   // { name: "Apotek Online", icon: Globe, path: "/online" },
-  // { name: "Multi Outlet", icon: Network, path: "/outlet" }
+  { name: "Multi Outlet", icon: Network, path: "/outlet" }
 ];
 
 export default function Sidebar2() {

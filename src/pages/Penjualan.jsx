@@ -1,220 +1,200 @@
 import { useState, useEffect } from "react";
-import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-} from "chart.js";
-import { format, parseISO } from "date-fns";
-import Card from "../components/Card";
+import { parseISO, format } from "date-fns";
 import PageHeader2 from "../components/PageHeader2";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import axios from "axios";
-import { Link } from 'react-router-dom';
-
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+import AlertBox from "../components/AlertBox";
+import { penjualanAPI } from "../services/penjualanAPI";
+import GenericTable from "../components/GenericTable";
+import EmptyState from "../components/EmptyState";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { AiFillDelete } from "react-icons/ai";
 
 export default function Penjualan() {
-  const [penjualanData, setPenjualanData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [penjualan, setPenjualan] = useState([]);
   const [showCancelled, setShowCancelled] = useState(true);
+  const [showForm, setShowForm] = useState(false);
 
-  // Ambil data dari API
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/penjualan")
-      .then((response) => {
-        setPenjualanData(response.data);
-      })
-      .catch((error) => {
-        console.error("Gagal mengambil data penjualan:", error);
-      });
-  }, []);
-
-  const startDate = parseISO("2023-06-01");
-  const endDate = parseISO("2023-06-06");
-
-  const filteredData = penjualanData.filter((item) => {
-    const transactionDate = parseISO(item.tanggal);
-    return (
-      transactionDate >= startDate &&
-      transactionDate <= endDate &&
-      (showCancelled || !item.dibatalkan)
-    );
+  const [dataForm, setDataForm] = useState({
+    noStruk: "",
+    produk: "",
+    total: "",
+    status: "",
   });
 
-  const totalPenjualan = filteredData.reduce((acc, item) => acc + Number(item.total || 0), 0);
-  const totalTransaksi = filteredData.length;
-
-  const chartData = {
-    labels: filteredData.map((item) => item.noStruk),
-    datasets: [
-      {
-        label: "Total Penjualan",
-        data: filteredData.map((item) => Number(item.total) || 0),
-        backgroundColor: "rgba(255, 99, 132, 0.6)",
-        borderColor: "rgba(255, 99, 132, 1)",
-        borderWidth: 2,
-        hoverBackgroundColor: "rgba(255, 99, 132, 0.8)",
-        hoverBorderColor: "rgba(255, 99, 132, 1)"
-      }
-    ]
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    setDataForm({ ...dataForm, [name]: value });
   };
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      title: {
-        display: false
-      },
-      legend: {
-        display: true,
-        position: 'top',
-        labels: {
-          fontColor: '#333',
-          fontSize: 14
-        }
-      },
-      tooltip: {
-        backgroundColor: 'rgba(255, 99, 132, 0.8)',
-        titleFont: {
-          size: 16
-        },
-        bodyFont: {
-          size: 14
-        }
-      }
-    },
-    scales: {
-      x: {
-        ticks: {
-          fontSize: 12,
-          fontColor: '#333'
-        }
-      },
-      y: {
-        beginAtZero: true,
-        ticks: {
-          callback: function (value) {
-            const numeric = Number(value);
-            return `Rp ${isNaN(numeric) ? value : numeric.toLocaleString("id-ID")}`;
-          },
-          fontSize: 12,
-          fontColor: '#333'
-        }
-      }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      setError("");
+      setSuccess("");
+
+      const cleanedData = {
+        noStruk: dataForm.noStruk.trim(),
+        produk: dataForm.produk.trim(),
+        total: Number(dataForm.total),
+        status: dataForm.status === "berhasil" ? true : false,
+      };
+
+      await penjualanAPI.createPenjualan(cleanedData);
+
+      setSuccess("Catatan berhasil ditambahkan!");
+      setDataForm({ noStruk: "", produk: "", total: "", status: "" });
+      setTimeout(() => setSuccess(""), 3000);
+      loadPenjualan();
+    } catch (err) {
+      setError(`Terjadi kesalahan: ${err.response?.data?.message || err.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const penjualanDates = [...new Set(filteredData.map(item => format(parseISO(item.tanggal), 'yyyy-MM-dd')))];
-
-  const handleDelete = (noStruk) => {
-    alert(`Menghapus transaksi ${noStruk}`);
+  const loadPenjualan = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      const data = await penjualanAPI.fetchPenjualan();
+      setPenjualan(data);
+    } catch (err) {
+      setError("Gagal memuat catatan");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleEdit = (noStruk) => {
-    alert(`Mengedit transaksi ${noStruk}`);
+  useEffect(() => {
+    loadPenjualan();
+  }, []);
+
+  const handleDelete = async (noStruk) => {
+    if (!window.confirm(`Yakin ingin menghapus transaksi ${noStruk}?`)) return;
+    try {
+      setLoading(true);
+      await penjualanAPI.deletePenjualan(noStruk);
+      setSuccess("Transaksi berhasil dihapus.");
+      setTimeout(() => setSuccess(""), 3000);
+      loadPenjualan();
+    } catch (err) {
+      setError("Gagal menghapus data.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="flex flex-col flex-1 w-full h-full overflow-auto bg-gray-50">
+    <div className="flex flex-col w-full h-full bg-base-200 px-6 py-4">
       <PageHeader2 title="Penjualan" />
 
-      <div className="flex justify-between gap-6 mb-6 max-w-7xl mx-auto">
-        {/* Grafik */}
-        <div className="flex-1">
-          <Card>
-            <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">Grafik Penjualan</h2>
-            <div className="relative h-[300px]">
-              <Bar data={chartData} options={chartOptions} />
-            </div>
-          </Card>
-        </div>
+      {error && <AlertBox type="error">{error}</AlertBox>}
+      {success && <AlertBox type="success">{success}</AlertBox>}
 
-        {/* Kalender */}
-        <div className="flex-1">
-          <Card>
-            <h2 className="text-2xl font-semibold mb-4 text-center text-gray-800">Tanggal Penjualan</h2>
-            <Calendar
-              tileClassName={({ date }) => {
-                const dateStr = format(date, 'yyyy-MM-dd');
-                if (penjualanDates.includes(dateStr)) {
-                  return 'bg-blue-500 text-white';
-                }
-                return '';
-              }}
-              className="shadow-lg rounded-xl"
-            />
-          </Card>
-        </div>
-      </div>
-
-      {/* Toggle dibatalkan */}
-      <div className="flex justify-end mb-6 px-6">
-        <button
-          onClick={() => setShowCancelled(!showCancelled)}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {showCancelled ? "Sembunyikan yang Dibatalkan" : "Tampilkan Semua"}
+      <div className="mt-4 mb-6">
+        <button onClick={() => setShowForm(!showForm)} className="btn btn-success">
+          {showForm ? "Tutup Form" : "Tambah Data"}
         </button>
       </div>
 
-      {/* Tabel Penjualan */}
-      <div className="overflow-x-auto bg-white rounded-xl shadow-lg mb-6 mx-6">
-        <table className="min-w-full table-auto text-sm text-gray-700">
-          <thead className="bg-indigo-600 text-white">
-            <tr>
-              <th className="px-6 py-3 text-left">No. Struk</th>
-              <th className="px-6 py-3 text-left">Produk</th>
-              <th className="px-6 py-3 text-left">Total Penjualan</th>
-              <th className="px-6 py-3 text-left">Status</th>
-              <th className="px-6 py-3 text-left">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.map((item, index) => (
-              <tr key={index} className="border-t hover:bg-gray-50">
-                <td className="px-6 py-4">
-                  <Link
-                    to={`/penjualan/${item.noStruk}`}
-                    className="text-emerald-400 hover:text-emerald-500"
+      {showForm && (
+        <div className="card bg-base-100 shadow-xl mb-6 p-6">
+          <h2 className="text-xl font-bold mb-4">Tambah Penjualan</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="text"
+              name="noStruk"
+              value={dataForm.noStruk}
+              onChange={handleChange}
+              placeholder="No Struk"
+              className="input input-bordered w-full"
+              disabled={loading}
+            />
+            <input
+              type="text"
+              name="produk"
+              value={dataForm.produk}
+              onChange={handleChange}
+              placeholder="Nama Produk"
+              className="input input-bordered w-full"
+              disabled={loading}
+            />
+            <input
+              type="number"
+              name="total"
+              value={dataForm.total}
+              onChange={handleChange}
+              placeholder="Total"
+              className="input input-bordered w-full"
+              disabled={loading}
+            />
+            <select
+              name="status"
+              value={dataForm.status}
+              onChange={handleChange}
+              className="select select-bordered w-full"
+              disabled={loading}
+            >
+              <option value="">Pilih Status</option>
+              <option value="berhasil">Berhasil</option>
+              <option value="dibatalkan">Dibatalkan</option>
+            </select>
+            <button type="submit" className="btn btn-primary w-full" disabled={loading}>
+              {loading ? "Menyimpan..." : "Simpan"}
+            </button>
+          </form>
+        </div>
+      )}
+
+      <div className="flex justify-end mb-4">
+        <button onClick={() => setShowCancelled(!showCancelled)} className="btn btn-info">
+          {showCancelled ? "Sembunyikan Dibatalkan" : "Tampilkan Semua"}
+        </button>
+      </div>
+
+      <div className="bg-white rounded-xl shadow-md mb-6 overflow-x-auto">
+        <div className="p-4 border-b font-semibold text-lg">Daftar Penjualan</div>
+
+        {loading && <LoadingSpinner text="Memuat catatan..." />}
+
+        {!loading && penjualan.length === 0 && !error && (
+          <EmptyState text="Belum ada catatan. Tambah catatan pertama!" />
+        )}
+
+        {!loading && penjualan.length === 0 && error && (
+          <EmptyState text="Terjadi Kesalahan. Coba lagi nanti." />
+        )}
+
+        {!loading && penjualan.length > 0 && (
+          <GenericTable
+            columns={["No", "Produk", "Total", "Status", "Aksi"]}
+            data={penjualan.filter((p) => showCancelled || p.status === true)}
+            renderRow={(item, index) => (
+              <>
+                <td className="px-4 py-2">{index + 1}</td>
+                <td className="px-4 py-2 text-emerald-700 font-medium">{item.produk}</td>
+                <td className="px-4 py-2">Rp {Number(item.total).toLocaleString("id-ID")}</td>
+                <td className="px-4 py-2">
+                  <span
+                    className={`badge ${
+                      item.status ? "badge-success" : "badge-error"
+                    }`}
                   >
-                    {item.noStruk}
-                  </Link>
+                    {item.status ? "Berhasil" : "Dibatalkan"}
+                  </span>
                 </td>
-                <td className="px-6 py-4">{item.produk}</td>
-                <td className="px-6 py-4">Rp {Number(item.total || 0).toLocaleString("id-ID")}</td>
-                <td className="px-6 py-4">
-                  {item.dibatalkan ? (
-                    <span className="text-red-600 font-semibold">Dibatalkan</span>
-                  ) : (
-                    <span className="text-green-600 font-semibold">Berhasil</span>
-                  )}
-                </td>
-                <td className="px-6 py-4">
-                  <button
-                    onClick={() => handleEdit(item.noStruk)}
-                    className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 mr-2"
-                  >
-                    Edit
+                <td className="px-4 py-2">
+                  <button onClick={() => handleDelete(item.noStruk)} disabled={loading}>
+                    <AiFillDelete className="text-red-500 text-xl hover:text-red-700" />
                   </button>
-                  <button
-                    onClick={() => handleDelete(item.noStruk)}
-                    className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-                  >
-                    Hapus
-                  </button>
                 </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+              </>
+            )}
+          />
+        )}
       </div>
     </div>
   );

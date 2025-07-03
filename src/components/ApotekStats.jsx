@@ -9,10 +9,10 @@ const stats = [
 ];
 
 const productTypes = [
-  { name: "Obat", value: 7000, color: "#fda4af" },
-  { name: "Alkes", value: 100, color: "#93c5fd" },
-  { name: "Umum", value: 50, color: "#fcd34d" },
-  { name: "Jasa", value: 52, color: "#99f6e4" }
+  { name: "Tablet", value: 7000, color: "#fda4af" },
+  { name: "Kapsul", value: 100, color: "#93c5fd" },
+  { name: "Sirup", value: 50, color: "#fcd34d" },
+  { name: "Salep", value: 52, color: "#99f6e4" }
 ];
 
 export default function ApotekStats() {
@@ -36,7 +36,7 @@ export default function ApotekStats() {
         {/* Chart */}
         <div className="md:col-span-2 p-3 bg-green-50 rounded-xl h-full w-full">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-xs text-blue-600 font-semibold">Tipe Produk</h3>
+            <h3 className="text-xs text-blue-600 font-semibold">Kategori Obat</h3>
             <span className="text-xs text-blue-500 cursor-pointer">➤</span>
           </div>
           <div className="h-[150px]">
