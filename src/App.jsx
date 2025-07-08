@@ -7,7 +7,14 @@ import Login1 from "./pages/auth/Login1";
 import Register1 from "./pages/auth/Register1";
 import Forgot1 from "./pages/auth/Forgot1";
 import Quotes from "./pages/Quotes";
-
+import { Import } from "lucide-react";
+import AlatKesehatan from "./pages/AlatKesehatan";
+import DaftarObat from "./pages/DaftarObat";
+import ObatResep from "./pages/ObatResep";
+import Pelanggan from "./pages/Pelanggan";
+import RiwayatPembelian from "./pages/RiwayatPembelian";
+import Artikel from "./pages/Artikel";
+import FAQ from "./pages/FAQ";
 // import Dashboard2 from "./pages/Dashboard2";
 // import Penjualan from "./pages/Penjualan";
 // import MainLayout2 from "./layouts/MainLayout2";
@@ -44,8 +51,14 @@ function App() {
           <Route path="/pembelian" element={<Pembelian />} />
           <Route path="/persediaan" element={<Persediaan />} />
           <Route path="/persediaan/:id" element={<DetailPersediaan />} />
-          
-
+          <Route path="/alat_kesehatan" element={<AlatKesehatan />} />
+          <Route path="/daftar_obat" element={<DaftarObat />} />
+          <Route path="/obatresep" element={<ObatResep />} />
+          <Route path="/pelanggan" element={<Pelanggan />} />
+          <Route path="/riwayat_pembelian" element={<RiwayatPembelian />} />
+          <Route path="/artikel" element={<Artikel/>} />
+          <Route path="/faq" element={<FAQ/>} />
+          <Route path="/obatresep" element={<DaftarObat />} />
           <Route path="/error/400" element={<ErrorPage kode={400} />} />
           <Route path="/error/401" element={<ErrorPage kode={401} />} />
           <Route path="/error/403" element={<ErrorPage kode={403} />} />

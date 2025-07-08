@@ -1,0 +1,168 @@
+import React, { useState, useEffect } from "react";
+import PageHeader2 from "../components/PageHeader2";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
+
+const FAQ = () => {
+  const [dataFaq, setDataFaq] = useState([]);
+  const [formData, setFormData] = useState({
+    pertanyaan: "",
+    jawaban: "",
+  });
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("dataFaq");
+    if (savedData) {
+      setDataFaq(JSON.parse(savedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("dataFaq", JSON.stringify(dataFaq));
+  }, [dataFaq]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editingIndex !== null) {
+      const updatedData = [...dataFaq];
+      updatedData[editingIndex] = {
+        ...formData,
+        id: updatedData[editingIndex].id,
+        created_at: updatedData[editingIndex].created_at,
+      };
+      setDataFaq(updatedData);
+      setEditingIndex(null);
+    } else {
+      const newData = {
+        id: Date.now(),
+        created_at: new Date().toISOString(),
+        ...formData,
+      };
+      setDataFaq([...dataFaq, newData]);
+    }
+
+    setFormData({ pertanyaan: "", jawaban: "" });
+    setShowForm(false);
+  };
+
+  const handleEdit = (index) => {
+    setFormData(dataFaq[index]);
+    setEditingIndex(index);
+    setShowForm(true);
+  };
+
+  const handleDelete = (index) => {
+    const filtered = dataFaq.filter((_, i) => i !== index);
+    setDataFaq(filtered);
+  };
+
+  return (
+    <div className="flex flex-col w-full h-full p-6 bg-gray-100">
+      <PageHeader2 title="FAQ" />
+
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="btn bg-[#00d69e] hover:bg-[#00bd8d] text-white"
+        >
+          {showForm ? "Tutup Form" : "Tambah Data"}
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="card w-full max-w-3xl bg-white shadow-xl mx-auto mb-6">
+          <div className="card-body">
+            <h2 className="card-title justify-center text-center mb-4 text-blue-700">
+              Form FAQ
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="label">
+                  <span className="label-text">Pertanyaan</span>
+                </label>
+                <input
+                  type="text"
+                  name="pertanyaan"
+                  value={formData.pertanyaan}
+                  onChange={handleChange}
+                  className="input input-bordered w-full"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="label">
+                  <span className="label-text">Jawaban</span>
+                </label>
+                <textarea
+                  name="jawaban"
+                  value={formData.jawaban}
+                  onChange={handleChange}
+                  className="textarea textarea-bordered w-full"
+                  required
+                ></textarea>
+              </div>
+
+              <div className="card-actions justify-center mt-4">
+                <button type="submit" className="btn btn-primary w-full">
+                  {editingIndex !== null ? "Simpan Perubahan" : "Tambah Data"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {dataFaq.length > 0 && (
+        <>
+          <h2 className="text-lg font-semibold text-gray-800 mb-2">Data FAQ</h2>
+          <div className="overflow-x-auto bg-white rounded-xl shadow">
+            <table className="table w-full">
+              <thead className="bg-[#0066ff] text-white text-sm">
+                <tr>
+                  <th>No</th>
+                  <th>Pertanyaan</th>
+                  <th>Jawaban</th>
+                  <th>Dibuat</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dataFaq.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>{index + 1}</td>
+                    <td>{item.pertanyaan}</td>
+                    <td>{item.jawaban}</td>
+                    <td>{new Date(item.created_at).toLocaleString()}</td>
+                    <td className="flex gap-2">
+                      <button
+                        className="btn btn-sm btn-warning"
+                        onClick={() => handleEdit(index)}
+                      >
+                        <FiEdit className="text-white" />
+                      </button>
+                      <button
+                        className="btn btn-sm btn-error"
+                        onClick={() => handleDelete(index)}
+                      >
+                        <FiTrash2 className="text-white" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default FAQ;

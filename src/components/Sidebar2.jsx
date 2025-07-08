@@ -4,7 +4,12 @@ import { NavLink } from "react-router-dom";
 import {
   LayoutDashboard, ShoppingCart, ClipboardList, Boxes, PackagePlus,
   MessageCircle, Gift, Wallet, PhoneCall, BarChart3, PieChart, Users,
-  Settings, Store, CreditCard, Sliders, Plug, Globe, Network
+  Settings, Store, CreditCard, Sliders, Plug, Globe, Network,
+  Stethoscope,
+  Pill,
+  FileText,
+  Newspaper,
+  HelpCircle
 } from "lucide-react";
 
 
@@ -12,25 +17,15 @@ import {
 const menuItems = [
   { name: "Dashboard", icon: LayoutDashboard, path: "/" },
   { name: "Penjualan", icon: ShoppingCart, path: "/penjualan" },
-  // { name: "Pelayanan", icon: ClipboardList, path: "/pelayanan" },
   { name: "Persediaan", icon: Boxes, path: "/persediaan" },
   { name: "Pembelian", icon: PackagePlus, path: "/pembelian" },
-  
-
-  { name: "Komunikasi", icon: MessageCircle, path: "/komunikasi" },
-  { name: "Program Promo", icon: Gift, path: "/promo" },
-  { name: "Keuangan", icon: Wallet, path: "/keuangan" },
-  { name: "Kontak", icon: PhoneCall, path: "/kontak" },
-  { name: "Laporan", icon: BarChart3, path: "/laporan" },
-  // { name: "Analitis", icon: PieChart, path: "/analisis" },
-  // { name: "Manajemen Pengguna", icon: Users, path: "/pengguna" },
-  // { name: "Pengaturan", icon: Settings, path: "/pengaturan" },
-  { name: "Profil Apotek", icon: Store, path: "/profil" },
-  { name: "Metode Pembayaran", icon: CreditCard, path: "/pembayaran" },
-  // { name: "Konfigurasi", icon: Sliders, path: "/konfigurasi" },
-  // { name: "Integrasi Platform", icon: Plug, path: "/integrasi" },
-  // { name: "Apotek Online", icon: Globe, path: "/online" },
-  { name: "Multi Outlet", icon: Network, path: "/outlet" }
+ { name: "Alat Kesehatan", icon: Stethoscope, path: "/alat_kesehatan" },       // Ikon alat medis
+  { name: "Daftar Obat", icon: Pill, path: "/daftar_obat" },                    // Ikon obat
+  { name: "Obat Resep", icon: FileText, path: "/obatresep" },                   // Ikon dokumen
+  { name: "Data Pelanggan", icon: Users, path: "/pelanggan" },                  // Ikon pengguna
+  { name: "Riwayat Pembelian", icon: ShoppingCart, path: "/riwayat_pembelian" },// Ikon belanja
+  { name: "Artikel", icon: Newspaper, path: "/artikel" },                       // Ikon berita
+  { name: "FAQ", icon: HelpCircle, path: "/faq" },                              // Ikon pertanyaan
 ];
 
 export default function Sidebar2() {
