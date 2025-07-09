@@ -23,7 +23,7 @@ const menuItems = [
   { name: "Daftar Obat", icon: Pill, path: "/daftar_obat" },                    // Ikon obat
   { name: "Obat Resep", icon: FileText, path: "/obatresep" },                   // Ikon dokumen
   { name: "Data Pelanggan", icon: Users, path: "/pelanggan" },                  // Ikon pengguna
-  { name: "Riwayat Pembelian", icon: ShoppingCart, path: "/riwayat_pembelian" },// Ikon belanja
+  { name: "Riwayat Penjualan", icon: ShoppingCart, path: "/riwayat_pembelian" },// Ikon belanja
   { name: "Artikel", icon: Newspaper, path: "/artikel" },                       // Ikon berita
   { name: "FAQ", icon: HelpCircle, path: "/faq" },                              // Ikon pertanyaan
 ];

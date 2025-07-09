@@ -1,4 +1,4 @@
-// DaftarObat.jsx (FULL FIXED - sesuai dengan Supabase API via obat.js)
+// DaftarObat.jsx (FINAL + Form + Card + Search + Filter by Kategori)
 
 import React, { useState, useEffect } from "react";
 import PageHeader2 from "../components/PageHeader2";
@@ -7,6 +7,7 @@ import { obat } from "../services/obat";
 
 const DaftarObat = () => {
   const [dataObat, setDataObat] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [formData, setFormData] = useState({
     nama_obat: "",
     harga_obat: 0,
@@ -97,23 +98,48 @@ const DaftarObat = () => {
 
   const getKategoriBadge = (kategori) => {
     switch (kategori) {
-      case "Tablet":
-        return "badge badge-info";
-      case "Kapsul":
-        return "badge badge-success";
-      case "Sirup":
-        return "badge badge-secondary";
-      case "Salep":
-        return "badge badge-error";
-      default:
-        return "badge";
+      case "Tablet": return "badge badge-info";
+      case "Kapsul": return "badge badge-success";
+      case "Sirup": return "badge badge-secondary";
+      case "Salep": return "badge badge-error";
+      default: return "badge";
     }
   };
+
+  const kategoriCount = {
+    Tablet: dataObat.filter((item) => item.kategori === "Tablet").length,
+    Kapsul: dataObat.filter((item) => item.kategori === "Kapsul").length,
+    Sirup: dataObat.filter((item) => item.kategori === "Sirup").length,
+    Salep: dataObat.filter((item) => item.kategori === "Salep").length,
+  };
+
+  const filteredObat = dataObat.filter((item) =>
+    item.nama_obat.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex flex-col w-full h-full p-6 bg-gray-100">
       <PageHeader2 title="Daftar Obat" />
-      <div className="flex justify-end mb-4">
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        {Object.entries(kategoriCount).map(([kategori, count]) => (
+          <div key={kategori} className="card shadow bg-white p-4 border border-gray-200">
+            <div className="text-sm text-gray-500">Kategori</div>
+            <div className="text-lg font-bold">{kategori}</div>
+            <div className="text-2xl text-blue-600">{count}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex justify-between items-center mb-4">
+        <input
+          type="text"
+          placeholder="Cari nama obat..."
+          className="input input-bordered w-full max-w-xs"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
         <button
           onClick={() => {
             setFormData({
@@ -253,71 +279,66 @@ const DaftarObat = () => {
         </div>
       )}
 
-      {dataObat.length > 0 && (
-        <>
-          <h2 className="text-lg font-semibold text-gray-800 mb-2">
-            Data Obat
-          </h2>
-          <div className="overflow-x-auto bg-white rounded-xl shadow">
-            <table className="table w-full">
-              <thead className="bg-[#1859F2] text-white text-sm">
-                <tr>
-                  <th>No</th>
-                  <th>Nama</th>
-                  <th>Harga</th>
-                  <th>Stok</th>
-                  <th>Kadaluarsa</th>
-                  <th>Gambar</th>
-                  <th>Kategori</th>
-                  <th>Deskripsi</th>
-                  <th>Dibuat</th>
-                  <th>Aksi</th>
+      {filteredObat.length > 0 && (
+        <div className="overflow-x-auto bg-white rounded-xl shadow">
+          <table className="table w-full">
+            <thead className="bg-[#1859F2] text-white text-sm">
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Kadaluarsa</th>
+                <th>Gambar</th>
+                <th>Kategori</th>
+                <th>Deskripsi</th>
+                <th>Dibuat</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredObat.map((item, index) => (
+                <tr key={item.id}>
+                  <td>{index + 1}</td>
+                  <td>{item.nama_obat}</td>
+                  <td>{item.harga_obat}</td>
+                  <td>{item.stok_obat}</td>
+                  <td>{item.tanggal_kadaluarsa}</td>
+                  <td>
+                    {item.gambar && (
+                      <img
+                        src={item.gambar}
+                        alt={item.nama_obat}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                    )}
+                  </td>
+                  <td>
+                    <span className={getKategoriBadge(item.kategori)}>
+                      {item.kategori}
+                    </span>
+                  </td>
+                  <td>{item.deskripsi}</td>
+                  <td>{new Date(item.created_at).toLocaleString()}</td>
+                  <td className="flex gap-2">
+                    <button
+                      className="btn btn-sm btn-warning"
+                      onClick={() => handleEdit(item)}
+                    >
+                      <FiEdit className="text-white" />
+                    </button>
+                    <button
+                      className="btn btn-sm btn-error"
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      <FiTrash2 className="text-white" />
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {dataObat.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{index + 1}</td>
-                    <td>{item.nama_obat}</td>
-                    <td>{item.harga_obat}</td>
-                    <td>{item.stok_obat}</td>
-                    <td>{item.tanggal_kadaluarsa}</td>
-                    <td>
-                      {item.gambar && (
-                        <img
-                          src={item.gambar}
-                          alt={item.nama_obat}
-                          className="w-16 h-16 object-cover rounded"
-                        />
-                      )}
-                    </td>
-                    <td>
-                      <span className={getKategoriBadge(item.kategori)}>
-                        {item.kategori}
-                      </span>
-                    </td>
-                    <td>{item.deskripsi}</td>
-                    <td>{new Date(item.created_at).toLocaleString()}</td>
-                    <td className="flex gap-2">
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={() => handleEdit(item)}
-                      >
-                        <FiEdit className="text-white" />
-                      </button>
-                      <button
-                        className="btn btn-sm btn-error"
-                        onClick={() => handleDelete(item.id)}
-                      >
-                        <FiTrash2 className="text-white" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

@@ -6,7 +6,6 @@ import AuthLayout2 from "./layouts/AuthLayout2";
 import Login1 from "./pages/auth/Login1";
 import Register1 from "./pages/auth/Register1";
 import Forgot1 from "./pages/auth/Forgot1";
-import Quotes from "./pages/Quotes";
 import { Import } from "lucide-react";
 import AlatKesehatan from "./pages/AlatKesehatan";
 import DaftarObat from "./pages/DaftarObat";
@@ -42,7 +41,6 @@ const DetailPersediaan = React.lazy(() => import("./pages/DetailPersediaan"))
 function App() {
   return (
    <Suspense fallback={<Loading/>}>
-    <Quotes/>
       <Routes>
         <Route element={<MainLayout2 />}>
           <Route path="/" element={<Dashboard2 />} />
