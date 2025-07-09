@@ -1,76 +1,89 @@
 import React, { useState, useEffect } from "react";
 import PageHeader2 from "../components/PageHeader2";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { obatresep } from "../services/obatresep";
 
 const ObatResep = () => {
   const [dataResep, setDataResep] = useState([]);
-  const [formData, setFormData] = useState({
-    keterangan: "",
-    gambar: "",
-  });
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [formData, setFormData] = useState({ keterangan: "", gambar: "" });
+  const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    const savedData = localStorage.getItem("dataResep");
-    if (savedData) {
-      setDataResep(JSON.parse(savedData));
-    }
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("dataResep", JSON.stringify(dataResep));
-  }, [dataResep]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const fetchData = async () => {
+    try {
+      const data = await obatresep.fetchObatResep();
+      setDataResep(data);
+    } catch (error) {
+      console.error("Gagal mengambil data:", error);
+    }
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setFormData((prev) => ({ ...prev, gambar: reader.result }));
-    };
-    reader.readAsDataURL(file);
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (editingIndex !== null) {
-      const updated = [...dataResep];
-      updated[editingIndex] = {
-        ...formData,
-        id: updated[editingIndex].id,
-        created_at: updated[editingIndex].created_at,
-      };
-      setDataResep(updated);
-      setEditingIndex(null);
+  const handleChange = async (e) => {
+    const { name, value, files } = e.target;
+    if (name === "gambar" && files.length > 0) {
+      const base64 = await convertToBase64(files[0]);
+      setFormData((prev) => ({ ...prev, gambar: base64 }));
     } else {
-      const newData = {
-        id: Date.now(),
-        created_at: new Date().toISOString(),
-        ...formData,
-      };
-      setDataResep([...dataResep, newData]);
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.keterangan || !formData.gambar) {
+      alert("Keterangan dan gambar wajib diisi.");
+      return;
     }
 
-    setFormData({ keterangan: "", gambar: "" });
-    setShowForm(false);
+    try {
+      if (editingId) {
+        await obatresep.updateObatResep(editingId, {
+          keterangan: formData.keterangan,
+          gambar: formData.gambar,
+        });
+      } else {
+        await obatresep.createObatResep({
+          keterangan: formData.keterangan,
+          gambar: formData.gambar,
+        });
+      }
+
+      setFormData({ keterangan: "", gambar: "" });
+      setEditingId(null);
+      setShowForm(false);
+      fetchData();
+    } catch (error) {
+      console.error("Gagal menyimpan data:", error?.response?.data || error.message);
+      alert("Terjadi kesalahan saat menyimpan data. Cek console.");
+    }
   };
 
-  const handleEdit = (index) => {
-    setFormData(dataResep[index]);
-    setEditingIndex(index);
+  const handleEdit = (item) => {
+    setFormData({ keterangan: item.keterangan, gambar: item.gambar });
+    setEditingId(item.id);
     setShowForm(true);
   };
 
-  const handleDelete = (index) => {
-    const filtered = dataResep.filter((_, i) => i !== index);
-    setDataResep(filtered);
+  const handleDelete = async (id) => {
+    try {
+      await obatresep.deleteObatResep(id);
+      fetchData();
+    } catch (error) {
+      console.error("Gagal menghapus data:", error);
+    }
   };
 
   return (
@@ -79,7 +92,11 @@ const ObatResep = () => {
 
       <div className="flex justify-end mb-4">
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            setFormData({ keterangan: "", gambar: "" });
+            setEditingId(null);
+            setShowForm(!showForm);
+          }}
           className="btn bg-[#00d69e] hover:bg-[#00bd8d] text-white"
         >
           {showForm ? "Tutup Form" : "Tambah Data"}
@@ -112,8 +129,9 @@ const ObatResep = () => {
                 </label>
                 <input
                   type="file"
+                  name="gambar"
                   accept="image/*"
-                  onChange={handleImageChange}
+                  onChange={handleChange}
                   className="file-input file-input-bordered w-full"
                 />
                 {formData.gambar && (
@@ -127,7 +145,7 @@ const ObatResep = () => {
 
               <div className="card-actions justify-center mt-4">
                 <button type="submit" className="btn btn-primary w-full">
-                  {editingIndex !== null ? "Simpan Perubahan" : "Tambah Data"}
+                  {editingId ? "Simpan Perubahan" : "Tambah Data"}
                 </button>
               </div>
             </form>
@@ -157,23 +175,25 @@ const ObatResep = () => {
                     <td>{index + 1}</td>
                     <td>{item.keterangan}</td>
                     <td>
-                      <img
-                        src={item.gambar}
-                        alt="Resep"
-                        className="w-16 h-16 object-cover rounded"
-                      />
+                      {item.gambar && (
+                        <img
+                          src={item.gambar}
+                          alt="Resep"
+                          className="w-16 h-16 object-cover rounded"
+                        />
+                      )}
                     </td>
                     <td>{new Date(item.created_at).toLocaleString()}</td>
                     <td className="flex gap-2">
                       <button
                         className="btn btn-sm btn-warning"
-                        onClick={() => handleEdit(index)}
+                        onClick={() => handleEdit(item)}
                       >
                         <FiEdit className="text-white" />
                       </button>
                       <button
                         className="btn btn-sm btn-error"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(item.id)}
                       >
                         <FiTrash2 className="text-white" />
                       </button>

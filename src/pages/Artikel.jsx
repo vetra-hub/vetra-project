@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PageHeader2 from "../components/PageHeader2";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { article } from "../services/artikel";
 
 const Artikel = () => {
   const [dataArtikel, setDataArtikel] = useState([]);
@@ -9,19 +10,17 @@ const Artikel = () => {
     link_url: "",
     gambar: "",
   });
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
-    const savedData = localStorage.getItem("dataArtikel");
-    if (savedData) {
-      setDataArtikel(JSON.parse(savedData));
-    }
-  }, []);
+  const fetchData = async () => {
+    const data = await article.fetchArticles();
+    setDataArtikel(data);
+  };
 
   useEffect(() => {
-    localStorage.setItem("dataArtikel", JSON.stringify(dataArtikel));
-  }, [dataArtikel]);
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -36,39 +35,37 @@ const Artikel = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      ...formData,
-      created_at: new Date().toISOString(),
-    };
-
-    if (editingIndex !== null) {
-      const updated = [...dataArtikel];
-      updated[editingIndex] = { ...payload, id: updated[editingIndex].id };
-      setDataArtikel(updated);
-      setEditingIndex(null);
+    if (editingId) {
+      await article.updateArticle(editingId, formData);
     } else {
-      const newEntry = {
-        id: Date.now(),
-        ...payload,
+      const newData = {
+        ...formData,
+        created_at: new Date().toISOString(),
       };
-      setDataArtikel([...dataArtikel, newEntry]);
+      await article.createArticle(newData);
     }
 
     setFormData({ judul: "", link_url: "", gambar: "" });
+    setEditingId(null);
     setShowForm(false);
+    fetchData();
   };
 
-  const handleEdit = (index) => {
-    setFormData(dataArtikel[index]);
-    setEditingIndex(index);
+  const handleEdit = (item) => {
+    setFormData({
+      judul: item.judul,
+      link_url: item.link_url,
+      gambar: item.gambar,
+    });
+    setEditingId(item.id);
     setShowForm(true);
   };
 
-  const handleDelete = (index) => {
-    const filtered = dataArtikel.filter((_, i) => i !== index);
-    setDataArtikel(filtered);
+  const handleDelete = async (id) => {
+    await article.deleteArticle(id);
+    fetchData();
   };
 
   return (
@@ -77,7 +74,11 @@ const Artikel = () => {
 
       <div className="flex justify-end mb-4">
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            setShowForm(!showForm);
+            setFormData({ judul: "", link_url: "", gambar: "" });
+            setEditingId(null);
+          }}
           className="btn bg-[#00d69e] hover:bg-[#00bd8d] text-white"
         >
           {showForm ? "Tutup Form" : "Tambah Artikel"}
@@ -88,7 +89,7 @@ const Artikel = () => {
         <div className="card w-full max-w-3xl bg-white shadow-xl mx-auto mb-6">
           <div className="card-body">
             <h2 className="card-title justify-center text-blue-700 mb-4">
-              Form Tambah Artikel
+              {editingId ? "Edit Artikel" : "Form Tambah Artikel"}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -131,7 +132,7 @@ const Artikel = () => {
               </div>
               <div className="card-actions justify-center mt-4">
                 <button type="submit" className="btn btn-primary w-full">
-                  {editingIndex !== null ? "Simpan Perubahan" : "Tambah Data"}
+                  {editingId ? "Simpan Perubahan" : "Tambah Data"}
                 </button>
               </div>
             </form>
@@ -160,7 +161,12 @@ const Artikel = () => {
                     <td>{index + 1}</td>
                     <td>{item.judul}</td>
                     <td>
-                      <a href={item.link_url} target="_blank" rel="noopener noreferrer" className="link link-primary">
+                      <a
+                        href={item.link_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="link link-primary"
+                      >
                         Buka Link
                       </a>
                     </td>
@@ -175,10 +181,10 @@ const Artikel = () => {
                     </td>
                     <td>{new Date(item.created_at).toLocaleString()}</td>
                     <td className="flex gap-2">
-                      <button className="btn btn-sm btn-warning" onClick={() => handleEdit(index)}>
+                      <button className="btn btn-sm btn-warning" onClick={() => handleEdit(item)}>
                         <FiEdit className="text-white" />
                       </button>
-                      <button className="btn btn-sm btn-error" onClick={() => handleDelete(index)}>
+                      <button className="btn btn-sm btn-error" onClick={() => handleDelete(item.id)}>
                         <FiTrash2 className="text-white" />
                       </button>
                     </td>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PageHeader2 from "../components/PageHeader2";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { faq } from "../services/faq";
 
 const FAQ = () => {
   const [dataFaq, setDataFaq] = useState([]);
@@ -8,58 +9,64 @@ const FAQ = () => {
     pertanyaan: "",
     jawaban: "",
   });
-  const [editingIndex, setEditingIndex] = useState(null);
+  const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    const savedData = localStorage.getItem("dataFaq");
-    if (savedData) {
-      setDataFaq(JSON.parse(savedData));
-    }
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("dataFaq", JSON.stringify(dataFaq));
-  }, [dataFaq]);
+  const fetchData = async () => {
+    try {
+      const data = await faq.fetchFaq();
+      setDataFaq(data);
+    } catch (error) {
+      console.error("Gagal mengambil data FAQ:", error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (editingIndex !== null) {
-      const updatedData = [...dataFaq];
-      updatedData[editingIndex] = {
-        ...formData,
-        id: updatedData[editingIndex].id,
-        created_at: updatedData[editingIndex].created_at,
-      };
-      setDataFaq(updatedData);
-      setEditingIndex(null);
-    } else {
-      const newData = {
-        id: Date.now(),
-        created_at: new Date().toISOString(),
-        ...formData,
-      };
-      setDataFaq([...dataFaq, newData]);
+    try {
+      if (editingId !== null) {
+        await faq.updateFaq(editingId, formData);
+      } else {
+        const newData = {
+          ...formData,
+          created_at: new Date().toISOString(),
+        };
+        await faq.createFaq(newData);
+      }
+      setFormData({ pertanyaan: "", jawaban: "" });
+      setEditingId(null);
+      setShowForm(false);
+      fetchData();
+    } catch (error) {
+      console.error("Gagal menyimpan data FAQ:", error);
     }
-
-    setFormData({ pertanyaan: "", jawaban: "" });
-    setShowForm(false);
   };
 
-  const handleEdit = (index) => {
-    setFormData(dataFaq[index]);
-    setEditingIndex(index);
+  const handleEdit = (item) => {
+    setFormData({
+      pertanyaan: item.pertanyaan,
+      jawaban: item.jawaban,
+    });
+    setEditingId(item.id);
     setShowForm(true);
   };
 
-  const handleDelete = (index) => {
-    const filtered = dataFaq.filter((_, i) => i !== index);
-    setDataFaq(filtered);
+  const handleDelete = async (id) => {
+    try {
+      await faq.deleteFaq(id);
+      fetchData();
+    } catch (error) {
+      console.error("Gagal menghapus FAQ:", error);
+    }
   };
 
   return (
@@ -68,7 +75,11 @@ const FAQ = () => {
 
       <div className="flex justify-end mb-4">
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            setFormData({ pertanyaan: "", jawaban: "" });
+            setEditingId(null);
+            setShowForm(!showForm);
+          }}
           className="btn bg-[#00d69e] hover:bg-[#00bd8d] text-white"
         >
           {showForm ? "Tutup Form" : "Tambah Data"}
@@ -111,7 +122,7 @@ const FAQ = () => {
 
               <div className="card-actions justify-center mt-4">
                 <button type="submit" className="btn btn-primary w-full">
-                  {editingIndex !== null ? "Simpan Perubahan" : "Tambah Data"}
+                  {editingId !== null ? "Simpan Perubahan" : "Tambah Data"}
                 </button>
               </div>
             </form>
@@ -143,13 +154,13 @@ const FAQ = () => {
                     <td className="flex gap-2">
                       <button
                         className="btn btn-sm btn-warning"
-                        onClick={() => handleEdit(index)}
+                        onClick={() => handleEdit(item)}
                       >
                         <FiEdit className="text-white" />
                       </button>
                       <button
                         className="btn btn-sm btn-error"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(item.id)}
                       >
                         <FiTrash2 className="text-white" />
                       </button>
