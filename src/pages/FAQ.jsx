@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PageHeader2 from "../components/PageHeader2";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiPlus, FiX } from "react-icons/fi";
 import { faq } from "../services/faq";
 
 const FAQ = () => {
   const [dataFaq, setDataFaq] = useState([]);
-  const [formData, setFormData] = useState({
-    pertanyaan: "",
-    jawaban: "",
-  });
+  const [formData, setFormData] = useState({ pertanyaan: "", jawaban: "" });
   const [editingId, setEditingId] = useState(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -52,10 +49,7 @@ const FAQ = () => {
   };
 
   const handleEdit = (item) => {
-    setFormData({
-      pertanyaan: item.pertanyaan,
-      jawaban: item.jawaban,
-    });
+    setFormData({ pertanyaan: item.pertanyaan, jawaban: item.jawaban });
     setEditingId(item.id);
     setShowForm(true);
   };
@@ -80,17 +74,25 @@ const FAQ = () => {
             setEditingId(null);
             setShowForm(!showForm);
           }}
-          className="btn bg-[#00d69e] hover:bg-[#00bd8d] text-white"
+          className={`btn ${showForm ? "btn-error" : "btn-success"} text-white`}
         >
-          {showForm ? "Tutup Form" : "Tambah Data"}
+          {showForm ? (
+            <>
+              <FiX className="mr-2" /> Tutup Form
+            </>
+          ) : (
+            <>
+              <FiPlus className="mr-2" /> Tambah Data
+            </>
+          )}
         </button>
       </div>
 
       {showForm && (
-        <div className="card w-full max-w-3xl bg-white shadow-xl mx-auto mb-6">
+        <div className="card w-full max-w-3xl bg-white shadow-xl mx-auto mb-6 animate-fade-in">
           <div className="card-body">
-            <h2 className="card-title justify-center text-center mb-4 text-blue-700">
-              Form FAQ
+            <h2 className="card-title justify-center text-blue-700 mb-4">
+              {editingId ? "Edit FAQ" : "Form Tambah FAQ"}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
@@ -106,7 +108,6 @@ const FAQ = () => {
                   required
                 />
               </div>
-
               <div>
                 <label className="label">
                   <span className="label-text">Jawaban</span>
@@ -116,13 +117,13 @@ const FAQ = () => {
                   value={formData.jawaban}
                   onChange={handleChange}
                   className="textarea textarea-bordered w-full"
+                  rows={4}
                   required
                 ></textarea>
               </div>
-
               <div className="card-actions justify-center mt-4">
                 <button type="submit" className="btn btn-primary w-full">
-                  {editingId !== null ? "Simpan Perubahan" : "Tambah Data"}
+                  {editingId ? "Simpan Perubahan" : "Tambah Data"}
                 </button>
               </div>
             </form>
@@ -133,7 +134,7 @@ const FAQ = () => {
       {dataFaq.length > 0 && (
         <>
           <h2 className="text-lg font-semibold text-gray-800 mb-2">Data FAQ</h2>
-          <div className="overflow-x-auto bg-white rounded-xl shadow">
+          <div className="overflow-x-auto bg-white rounded-xl shadow animate-fade-in">
             <table className="table w-full">
               <thead className="bg-[#0066ff] text-white text-sm">
                 <tr>
@@ -148,21 +149,27 @@ const FAQ = () => {
                 {dataFaq.map((item, index) => (
                   <tr key={item.id}>
                     <td>{index + 1}</td>
-                    <td>{item.pertanyaan}</td>
-                    <td>{item.jawaban}</td>
-                    <td>{new Date(item.created_at).toLocaleString()}</td>
+                    <td className="font-medium">{item.pertanyaan}</td>
+                    <td className="whitespace-pre-line text-sm text-gray-700">
+                      {item.jawaban}
+                    </td>
+                    <td className="text-sm text-gray-600">
+                      {new Date(item.created_at).toLocaleString()}
+                    </td>
                     <td className="flex gap-2">
                       <button
-                        className="btn btn-sm btn-warning"
+                        className="btn btn-sm btn-outline btn-info"
                         onClick={() => handleEdit(item)}
                       >
-                        <FiEdit className="text-white" />
+                        <FiEdit className="mr-1" />
+                        Edit
                       </button>
                       <button
-                        className="btn btn-sm btn-error"
+                        className="btn btn-sm btn-outline btn-error"
                         onClick={() => handleDelete(item.id)}
                       >
-                        <FiTrash2 className="text-white" />
+                        <FiTrash2 className="mr-1" />
+                        Hapus
                       </button>
                     </td>
                   </tr>

@@ -1,4 +1,3 @@
-// Dashboard2.jsx
 import React, { useEffect, useState } from "react";
 import {
   BarChart,
@@ -55,23 +54,28 @@ const Dashboard2 = () => {
   const stokMinData = [...obatData].sort((a, b) => a.stok_obat - b.stok_obat)[0];
 
   const colors = {
-    Tablet: "#fda4af",
-    Kapsul: "#93c5fd",
-    Sirup: "#fcd34d",
-    Salep: "#99f6e4",
+    Tablet: "#fbcfe8",
+    Kapsul: "#bfdbfe",
+    Sirup: "#fde68a",
+    Salep: "#a7f3d0",
   };
 
   const icons = {
-    TotalPelanggan: <FaUserFriends className="text-blue-500 text-3xl" />,
-    Alkes: <FaMicroscope className="text-green-500 text-2xl" />,
-    Artikel: <FaFileAlt className="text-pink-600 text-2xl" />,
-    FAQ: <FaQuestion className="text-purple-600 text-2xl" />,
-    Up: <FaArrowUp className="text-indigo-600 text-3xl" />,
-    Down: <FaArrowDown className="text-red-600 text-3xl" />,
+    TotalPelanggan: <FaUserFriends className="text-blue-500 text-3xl opacity-80" />,
+    Alkes: <FaMicroscope className="text-green-500 text-2xl opacity-80" />,
+    Artikel: <FaFileAlt className="text-pink-600 text-2xl opacity-80" />,
+    FAQ: <FaQuestion className="text-purple-600 text-2xl opacity-80" />,
+    Up: <FaArrowUp className="text-indigo-600 text-3xl opacity-80" />,
+    Down: <FaArrowDown className="text-red-600 text-3xl opacity-80" />,
   };
 
+  const cardClass =
+    "card shadow-md hover:shadow-xl transition-all duration-300 border border-base-300 rounded-xl";
+
+  const cardBodyStyle = "card-body bg-white rounded-xl";
+
   return (
-    <div className="p-6 space-y-6 bg-base-200 min-h-screen">
+    <div className="p-6 space-y-6 bg-gradient-to-br from-blue-50 to-white min-h-screen">
       <div className="text-3xl font-bold text-primary mb-4">Dashboard Apotek</div>
 
       <div className="alert alert-success shadow-lg rounded-xl">
@@ -94,13 +98,13 @@ const Dashboard2 = () => {
       </div>
 
       {/* Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Pelanggan */}
-        <div className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300">
-          <div className="card-body">
+        <div className={`${cardClass} bg-blue-100`}>
+          <div className={cardBodyStyle}>
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="card-title text-base text-gray-500">Total Pelanggan</h2>
+                <h2 className="text-gray-600 text-sm">Total Pelanggan</h2>
                 <p className="text-4xl font-bold text-blue-600">{totalPelanggan}</p>
               </div>
               {icons.TotalPelanggan}
@@ -109,12 +113,12 @@ const Dashboard2 = () => {
         </div>
 
         {/* Total Alkes */}
-        <div className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300">
-          <div className="card-body">
+        <div className={`${cardClass} bg-green-100`}>
+          <div className={cardBodyStyle}>
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="card-title text-base text-gray-500">Total Alkes</h2>
-                <p className="text-4xl font-bold text-green-500">{alkesData.length}</p>
+                <h2 className="text-gray-600 text-sm">Total Alkes</h2>
+                <p className="text-4xl font-bold text-green-600">{alkesData.length}</p>
               </div>
               {icons.Alkes}
             </div>
@@ -122,12 +126,12 @@ const Dashboard2 = () => {
         </div>
 
         {/* Total Artikel */}
-        <div className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300">
-          <div className="card-body">
+        <div className={`${cardClass} bg-pink-100`}>
+          <div className={cardBodyStyle}>
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="card-title text-base text-gray-500">Total Artikel</h2>
-                <p className="text-4xl font-bold text-pink-500">{artikel.length}</p>
+                <h2 className="text-gray-600 text-sm">Total Artikel</h2>
+                <p className="text-4xl font-bold text-pink-600">{artikel.length}</p>
               </div>
               {icons.Artikel}
             </div>
@@ -135,12 +139,12 @@ const Dashboard2 = () => {
         </div>
 
         {/* Total FAQ */}
-        <div className="card bg-white shadow-xl hover:shadow-2xl transition-all duration-300">
-          <div className="card-body">
+        <div className={`${cardClass} bg-purple-100`}>
+          <div className={cardBodyStyle}>
             <div className="flex justify-between items-center">
               <div>
-                <h2 className="card-title text-base text-gray-500">Total FAQ</h2>
-                <p className="text-4xl font-bold text-purple-500">{faq.length}</p>
+                <h2 className="text-gray-600 text-sm">Total FAQ</h2>
+                <p className="text-4xl font-bold text-purple-600">{faq.length}</p>
               </div>
               {icons.FAQ}
             </div>
@@ -149,7 +153,7 @@ const Dashboard2 = () => {
       </div>
 
       {/* Grafik Obat */}
-      <div className="card bg-white shadow-lg p-6 border border-base-300">
+      <div className={`${cardClass} p-6 bg-white`}>
         <h2 className="text-lg font-semibold text-blue-700 mb-4">
           Grafik Distribusi Kategori Obat
         </h2>
@@ -169,8 +173,9 @@ const Dashboard2 = () => {
 
       {/* Stok Obat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div className="card bg-white shadow-xl border border-base-300">
-          <div className="card-body">
+        {/* Stok Tertinggi */}
+        <div className={`${cardClass} bg-indigo-50`}>
+          <div className={cardBodyStyle}>
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-sm text-gray-500">Stok Obat Tertinggi</h2>
@@ -184,8 +189,9 @@ const Dashboard2 = () => {
           </div>
         </div>
 
-        <div className="card bg-white shadow-xl border border-base-300">
-          <div className="card-body">
+        {/* Stok Terendah */}
+        <div className={`${cardClass} bg-red-50`}>
+          <div className={cardBodyStyle}>
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-sm text-gray-500">Stok Obat Minim</h2>
