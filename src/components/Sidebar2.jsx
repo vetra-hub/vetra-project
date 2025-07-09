@@ -25,7 +25,9 @@ const menuItems = [
   { name: "Data Pelanggan", icon: Users, path: "/pelanggan" },                  // Ikon pengguna
   { name: "Riwayat Penjualan", icon: ShoppingCart, path: "/riwayat_pembelian" },// Ikon belanja
   { name: "Artikel", icon: Newspaper, path: "/artikel" },                       // Ikon berita
-  { name: "FAQ", icon: HelpCircle, path: "/faq" },                              // Ikon pertanyaan
+  { name: "FAQ", icon: HelpCircle, path: "/faq" },  
+  { name: "Laporan Penjualan", icon: FileText, path: "/laporan_penjualan" },
+  { name: "Testimoni", icon: MessageCircle, path: "/testimoni" },                            
 ];
 
 export default function Sidebar2() {
