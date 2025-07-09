@@ -16,6 +16,7 @@ import Artikel from "./pages/Artikel";
 import FAQ from "./pages/FAQ";
 import LaporanPenjualan from "./pages/LaporanPenjualan";
 import Testimoni from "./pages/Testimoni";
+import Guest from "./pages/Guest";
 // import Dashboard2 from "./pages/Dashboard2";
 // import Penjualan from "./pages/Penjualan";
 // import MainLayout2 from "./layouts/MainLayout2";
@@ -60,7 +61,7 @@ function App() {
           <Route path="/faq" element={<FAQ/>} />
           <Route path="/laporan_penjualan" element={<LaporanPenjualan/>} />
           <Route path="/testimoni" element={<Testimoni/>} />
-          <Route path="/obatresep" element={<DaftarObat />} />
+          <Route path="/guest" element={<Guest/>} />
           <Route path="/error/400" element={<ErrorPage kode={400} />} />
           <Route path="/error/401" element={<ErrorPage kode={401} />} />
           <Route path="/error/403" element={<ErrorPage kode={403} />} />

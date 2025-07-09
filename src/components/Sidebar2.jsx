@@ -11,6 +11,7 @@ import {
   Newspaper,
   HelpCircle
 } from "lucide-react";
+import { FaUserAlt } from "react-icons/fa";
 
 
 
@@ -27,7 +28,8 @@ const menuItems = [
   { name: "Artikel", icon: Newspaper, path: "/artikel" },                       // Ikon berita
   { name: "FAQ", icon: HelpCircle, path: "/faq" },  
   { name: "Laporan Penjualan", icon: FileText, path: "/laporan_penjualan" },
-  { name: "Testimoni", icon: MessageCircle, path: "/testimoni" },                            
+  { name: "Testimoni", icon: MessageCircle, path: "/testimoni" }, 
+  { name: "Guest", icon: FaUserAlt, path: "/guest" }                            
 ];
 
 export default function Sidebar2() {
